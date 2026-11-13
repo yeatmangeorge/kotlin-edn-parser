@@ -14,7 +14,8 @@ enum class TokenType{
     OpenMap,
     CloseMap,
     Key,
-    Int
+    Int,
+    String,
 }
 
 data class Token(
@@ -70,6 +71,17 @@ private fun lexInt(ctx: Ctx){
     ctx.swallowToken(TokenType.Int)
 }
 
+private fun lexString(ctx: Ctx) {
+    while (ctx.current.end<ctx.input.length){
+        if (ctx.input[ctx.current.end] == '\"'){
+            ctx.peek() 
+            break
+        }
+        ctx.peek()
+    }
+    ctx.swallowToken(TokenType.String)
+}
+
 fun lex(input: String): List<Token>{
     val ctx = Ctx(input)
     while(!ctx.atEnd()){
@@ -78,6 +90,7 @@ fun lex(input: String): List<Token>{
             "{" -> ctx.swallowToken(TokenType.OpenMap)
             "}" -> ctx.swallowToken(TokenType.CloseMap)
             ":" -> lexKey(ctx) 
+            "\"" -> lexString(ctx)
             else -> {
                 lexInt(ctx)
                 // require(false)
