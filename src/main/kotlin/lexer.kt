@@ -10,6 +10,19 @@
  :cache-ttl 3600}
  */
 
+enum class TokenType{
+    OpenMap,
+    CloseMap,
+    Key,
+    Int
+}
+
+data class Token(
+    val type: TokenType,
+    val literal: StringView,
+    val pos: Position,
+)
+
 data class Position(var line: Int, var column:Int)
 
 private class Ctx(val input:String){
@@ -62,16 +75,3 @@ fun lex(input: String): List<Token>{
     }
     return ctx.tok
 }
-
-enum class TokenType{
-    OpenMap,
-    CloseMap,
-    Key,
-    Int
-}
-
-data class Token(
-    val type: TokenType,
-    val literal: StringView,
-    val pos: Position,
-)
