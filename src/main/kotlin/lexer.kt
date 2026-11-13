@@ -1,31 +1,3 @@
-/*
-{:database {:host "localhost"
-            :port 5432
-            :name "myapp_prod"
-            :pool-size 10}
- :logging {:level :info
-           :file "/var/log/myapp.log"
-           :max-size "100MB"}
- :features #{:notifications :analytics :beta-ui}
- :cache-ttl 3600}
- */
-
-enum class TokenType{
-    OpenMap,
-    CloseMap,
-    Key,
-    Int,
-    String,
-}
-
-data class Token(
-    val type: TokenType,
-    val literal: StringView,
-    val pos: Position,
-)
-
-data class Position(var line: Int, var column:Int)
-
 private class Ctx(val input:String){
     var current: StringView
     val tok : MutableList<Token> = mutableListOf()
