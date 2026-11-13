@@ -47,6 +47,11 @@ fun lex(input: String): List<Token>{
             " ","\n" -> ctx.swallow()
             "{" -> ctx.swallowToken(TokenType.OpenMap)
             "}" -> ctx.swallowToken(TokenType.CloseMap)
+            ":" -> {
+                while (ctx.peek().let { 
+                    it != ' ' && it != '\n' && it != '{'  && it != '}' }) {} 
+                ctx.swallowToken(TokenType.Key)
+            }
         }
     }
     return ctx.tok
