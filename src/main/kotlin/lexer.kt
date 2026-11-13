@@ -35,7 +35,7 @@ private class Ctx(val input:String){
       current = StringView(input, 0, 1) 
    } 
    
-  fun peek(): Char = current.source[++current.end]
+  fun advance(): Char = current.source[++current.end]
   
   fun atEnd() = current.start >= input.length
 
@@ -57,7 +57,7 @@ private class Ctx(val input:String){
 }
 
 private fun lexKey(ctx: Ctx){
-    while (ctx.peek().let { 
+    while (ctx.advance().let { 
         it != ' ' && it != '\n' && it != '{'  && it != '}' }) {
             if(ctx.current.end>=ctx.input.length) break
         } 
@@ -65,7 +65,7 @@ private fun lexKey(ctx: Ctx){
 }
 
 private fun lexInt(ctx: Ctx){
-    while(ctx.peek().let{ it>='0' && it<='9' }){
+    while(ctx.advance().let{ it>='0' && it<='9' }){
         if(ctx.current.end >= ctx.input.length)break
     }
     ctx.swallowToken(TokenType.Int)
@@ -74,10 +74,10 @@ private fun lexInt(ctx: Ctx){
 private fun lexString(ctx: Ctx) {
     while (ctx.current.end<ctx.input.length){
         if (ctx.input[ctx.current.end] == '\"'){
-            ctx.peek() 
+            ctx.advance() 
             break
         }
-        ctx.peek()
+        ctx.advance()
     }
     ctx.swallowToken(TokenType.String)
 }
