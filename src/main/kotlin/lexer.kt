@@ -63,6 +63,13 @@ private fun lexKey(ctx: Ctx){
     ctx.swallowToken(TokenType.Key)
 }
 
+private fun lexInt(ctx: Ctx){
+    while(ctx.peek().let{ it>='0' && it<='9' }){
+        if(ctx.current.end >= ctx.input.length)break
+    }
+    ctx.swallowToken(TokenType.Int)
+}
+
 fun lex(input: String): List<Token>{
     val ctx = Ctx(input)
     while(!ctx.atEnd()){
@@ -71,6 +78,10 @@ fun lex(input: String): List<Token>{
             "{" -> ctx.swallowToken(TokenType.OpenMap)
             "}" -> ctx.swallowToken(TokenType.CloseMap)
             ":" -> lexKey(ctx) 
+            else -> {
+                lexInt(ctx)
+                // require(false)
+            }
         }
     }
     return ctx.tok

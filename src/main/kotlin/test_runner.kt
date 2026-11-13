@@ -1,9 +1,12 @@
 fun test_lex(){
-    val result = lex("  { :abc  {:123}  \n }    :t ")
+    val result = lex( """
+            {:database {:port 5432
+                        :pool-size 10}}
+    """)
     result.map{ r->   
         println(r.literal.toString())
     }
-   require(result.size == 7)  
+   require(result.size == 9)  
 }
 
 fun main() {
