@@ -12,7 +12,7 @@
 
 data class Position(var line: Int, var column:Int)
 
-private class Ctx(input:String){
+private class Ctx(val input:String){
     var current: StringView
     val tok : MutableList<Token> = mutableListOf()
     var pos: Position = Position(0,0)
@@ -22,6 +22,8 @@ private class Ctx(input:String){
    } 
    
   fun peek(): Char = current.source[++current.end]
+  
+  fun atEnd() = current.start >= input.length
 
   fun swallow() {
       if(current.toString() == "\n"){
@@ -35,23 +37,27 @@ private class Ctx(input:String){
   }
   
   fun swallowToken(type: TokenType){
-    tok.add(Token( type, current.copy(), pos))
+    tok.add(Token( type, current.copy(), pos.copy()))
     swallow()
   }
 }
 
+private fun lexKey(ctx: Ctx){
+    while (ctx.peek().let { 
+        it != ' ' && it != '\n' && it != '{'  && it != '}' }) {
+            if(ctx.current.end>=ctx.input.length) break
+        } 
+    ctx.swallowToken(TokenType.Key)
+}
+
 fun lex(input: String): List<Token>{
     val ctx = Ctx(input)
-    while(ctx.current.start < input.length){
+    while(!ctx.atEnd()){
         when(val str = ctx.current.toString()){
             " ","\n" -> ctx.swallow()
             "{" -> ctx.swallowToken(TokenType.OpenMap)
             "}" -> ctx.swallowToken(TokenType.CloseMap)
-            ":" -> {
-                while (ctx.peek().let { 
-                    it != ' ' && it != '\n' && it != '{'  && it != '}' }) {} 
-                ctx.swallowToken(TokenType.Key)
-            }
+            ":" -> lexKey(ctx) 
         }
     }
     return ctx.tok

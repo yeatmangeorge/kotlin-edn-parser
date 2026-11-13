@@ -1,9 +1,9 @@
 fun test_lex(){
-    val result = lex("  { :abc  {:123}   }    ")
+    val result = lex("  { :abc  {:123}  \n }    :t ")
     result.map{ r->   
         println(r.literal.toString())
     }
-   require(result.size == 6)  
+   require(result.size == 7)  
 }
 
 fun main() {
