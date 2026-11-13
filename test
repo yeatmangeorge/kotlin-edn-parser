@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+
+LIB_NAME=kotlin_edn_parser
+BUILD_DIR=/tmp/build
+
+mkdir -p "$BUILD_DIR"
+
+find src/main/kotlin src/main/kotlin -name '*.kt' > "$BUILD_DIR/sources.txt"
+
+kotlinc @"$BUILD_DIR/sources.txt" \
+    -include-runtime \
+    -d "$BUILD_DIR/$LIB_NAME.jar"
+
+java -jar "$BUILD_DIR/$LIB_NAME.jar"
