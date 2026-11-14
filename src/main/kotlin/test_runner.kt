@@ -10,7 +10,7 @@
  :cache-ttl 3600}
  */
 
-fun test_lex(){
+fun testLex(){
     val result = lex( """
             {:database {:port 5432
                         :host "lsdkfj"
@@ -22,7 +22,17 @@ fun test_lex(){
    require(result.size == 11)  
 }
 
+fun testParse(){
+    val result = parse(lex("""
+                    {:port 5432
+                    :host "lsdkfj"
+                    :pool-size 10}
+    """.trimIndent()))
+    println(result)
+}
+
 fun main() {
-    test_lex()
+    testLex()
+    testParse()
     println("All tests passed")
 }
