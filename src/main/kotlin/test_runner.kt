@@ -24,9 +24,14 @@ fun testLex(){
 
 fun testParse(){
     val result = parse(lex("""
-            {:database {:port 5432
-                        :host "lsdkfj"
-                        :pool-size 10}}
+        {:database {:host "localhost"
+            :port 5432
+            :name "myapp_prod"
+            :pool-size 10}
+ :logging  {:level :info
+            :file "/var/log/myapp.log"
+            :max-size "100MB"}
+ :cache-ttl 3600}
     """.trimIndent()))
     println(result)
 }

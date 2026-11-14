@@ -42,6 +42,11 @@ private fun parseValue(ctx: ParserCtx):Any{
             current.literal.end--
             return current.literal.toString()
         }
+        TokenType.Key ->{
+            //remove leading :
+            current.literal.start++
+            return current.literal.toString()
+        } 
         TokenType.OpenMap -> parseMap(ctx)
         else ->throw Exception("Unsupported value type")
     }

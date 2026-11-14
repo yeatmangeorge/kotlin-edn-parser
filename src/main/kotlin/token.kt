@@ -10,6 +10,7 @@ val valueTypes = arrayOf(
 TokenType.Int, 
             TokenType.String,
             TokenType.OpenMap,
+            TokenType.Key,
 )
 
 fun isValueType(token:TokenType) = valueTypes.contains(token)
