@@ -24,9 +24,9 @@ fun testLex(){
 
 fun testParse(){
     val result = parse(lex("""
-                    {:port 5432
-                    :host "lsdkfj"
-                    :pool-size 10}
+            {:database {:port 5432
+                        :host "lsdkfj"
+                        :pool-size 10}}
     """.trimIndent()))
     println(result)
 }

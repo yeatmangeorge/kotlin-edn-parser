@@ -6,11 +6,13 @@ enum class TokenType{
     String,
 }
 
-fun isValueType(token:TokenType) = 
-    arrayOf<TokenType>(
-        TokenType.Int, 
+val valueTypes = arrayOf(
+TokenType.Int, 
             TokenType.String,
-).contains(token)
+            TokenType.OpenMap,
+)
+
+fun isValueType(token:TokenType) = valueTypes.contains(token)
 
 data class Token(
     val type: TokenType,

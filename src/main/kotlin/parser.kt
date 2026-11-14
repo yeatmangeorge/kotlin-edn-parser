@@ -22,7 +22,7 @@ private data class ParserCtx(
 
     if (!types.contains(next.type))
         throw Exception(
-            "Expected: ${types.joinToString(", or ")}, but got: $next"
+            "Expected: ${types.joinToString(", or ")}, but got: ${next.type}"
         )
 
     return next
@@ -42,6 +42,7 @@ private fun parseValue(ctx: ParserCtx):Any{
             current.literal.end--
             return current.literal.toString()
         }
+        TokenType.OpenMap -> parseMap(ctx)
         else ->throw Exception("Unsupported value type")
     }
 }
@@ -52,7 +53,7 @@ private fun parseKeyValuePair(ctx: ParserCtx):Pair<String, Any>{
     //remove leading :
     key.literal.start++
     val kotlinKey = key.literal.toString()
-    val value = ctx.expectAdvance(TokenType.Int, TokenType.String)
+    val value = ctx.expectAdvance(*valueTypes)
     return Pair(kotlinKey, parseValue(ctx))
 }
 
